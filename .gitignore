@@ -1,3 +1,4 @@
 /res/files/*
 .DS_Store
 /out/*
+.idea/*

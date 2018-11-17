@@ -40,7 +40,8 @@ public class FormatData {
 
         setupSql();
 
-        buildSqlDB();
+//        buildSqlDB();
+        buildGraph();
     }
 
     private static void setupSql() throws Exception {
@@ -50,285 +51,91 @@ public class FormatData {
         Type type = new TypeToken<String[]>() {}.getType();
         String[] sqlCreds = gson.fromJson(reader, type);
         sql = DriverManager.getConnection(url, sqlCreds[0], sqlCreds[1]);
+        sql.setAutoCommit(false);
 
-        System.out.println(pageInDB("TEST"));
-
-        // Clear both databases
-        sql.prepareStatement("DELETE FROM pages").execute();
-        sql.prepareStatement("DELETE FROM redirects");
+        // Clear database
+//        sql.prepareStatement("DELETE FROM pages").execute();
+//        sql.prepareStatement("ALTER TABLE pages AUTO_INCREMENT = 0").execute();
+//        sql.commit();
     }
-
-//    private static void buildLinksJson(){
-//        System.out.println("Building pages");
-//        try {
-//            File inputFile = new File("./res/files/wiki.xml");
-//            BufferedReader in = new BufferedReader(new FileReader(inputFile));
-//
-//            String line;
-//            String currPage;
-//            boolean remove;
-//
-//            int count = 0;
-//            boolean keep;
-//
-//            while ((line = in.readLine()) != null) {
-//
-//                // If open title tage, we've reached a new page
-//                if (line.trim().startsWith("<title")) {
-//                    currPage = line.trim().replace("<title>", "").replace("</title>", "");
-//                    count++;
-//                    if (count % 10000 == 0) System.out.println(count);
-//
-//                    while ((line = in.readLine()) != null) {
-//
-//                        if (line.trim().equals("</page>") || (line.contains("#REDIRECT") && line.contains("<text")))
-//                            break;
-//                        if (line.trim().startsWith("<text")) {
-//
-//                            // Find the Page that the redirect points to
-//                            Matcher linkMatcher = linkPattern.matcher(line);
-//                            while (linkMatcher.find()) {
-//                                String link = linkMatcher.group();
-//
-//                                keep = true;
-//                                for (String x : removeList){
-//                                    if (link.contains("[[:"+x+":") || link.contains("[["+x+":")) {
-//                                        keep = false;
-//                                        break;
-//                                    }
-//                                }
-//
-//                                if (keep) {
-//                                    String page = link.split("\\|")[0].replace("[[", "").replace("]]", "");
-//                                    String text;
-//                                    if (link.contains("|"))
-//                                        text = link.split("\\|")[1].replace("]]", "");
-//                                    else
-//                                        text = page;
-//
-//
-//                                }
-//                            }
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//
-//            Gson gson = new Gson();
-//            FileWriter writer = new FileWriter(new File("./res/files/redirects.json"));
-//            writer.write(gson.toJson(redirects));
-//            writer.flush();
-//            writer.close();
-//
-//            System.out.println(count + " redirects done.");
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
-//    private static void buildPages(){
-//        System.out.println("Building pages");
-//        try {
-//            File inputFile = new File("./res/files/wiki.xml");
-//            BufferedReader in = new BufferedReader(new FileReader(inputFile));
-//
-//            String line;
-//            String currPage;
-//
-//            int count = 0;
-//            boolean keep;
-//
-//            while ((line = in.readLine()) != null) {
-//
-//                // If open title tag, we've reached a new page
-//                if (line.trim().startsWith("<title")) {
-//                    currPage = line.replace("<title>", "").replace("</title>", "").trim();
-//                    if (!indexMap.containsKey(currPage))
-//                        indexMap.put(currPage, indexMap.size());
-//
-//                    while ((line = in.readLine()) != null) {
-//
-//                        if (line.trim().equals("</page>") || (line.contains("#REDIRECT") && line.contains("<text")))
-//                            break;
-//                        if (line.trim().startsWith("<text")) {
-//                            count++;
-//                            if (count % 100000 == 0) System.out.println(count);
-//
-//                            // Find the Page that the redirect points to
-//                            Matcher linkMatcher = linkPattern.matcher(line);
-//                            while (linkMatcher.find()) {
-//                                String link = linkMatcher.group();
-//
-//                                keep = true;
-//                                for (String x : removeList){
-//                                    if (link.contains("[[:"+x+":") || link.contains("[["+x+":")) {
-//                                        keep = false;
-//                                        break;
-//                                    }
-//                                }
-//
-//                                if (keep) {
-//                                    String page = link.split("\\|")[0].replace("[[", "").replace("]]", "").trim();
-//                                    if (!indexMap.containsKey(page))
-//                                        indexMap.put(page,indexMap.size());
-//                                }
-//                            }
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//
-//            Gson gson = new Gson();
-//            FileWriter writer = new FileWriter(new File("./res/files/pages.json"));
-//            writer.write(gson.toJson(titleMap));
-//            writer.flush();
-//            writer.close();
-//
-//            System.out.println(count + " pages done.");
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
-//    private static void buildRedirects(){
-//        System.out.println("Building redirects");
-//        try {
-//            File inputFile = new File("./res/files/wiki.xml");
-//            BufferedReader in = new BufferedReader(new FileReader(inputFile));
-//
-//            String line;
-//            String currPage;
-//            boolean remove;
-//
-//            int count = 0;
-//
-//            while ((line = in.readLine()) != null) {
-//
-//                // If open title tage, we've reached a new page
-//                if (line.trim().startsWith("<title")) {
-//                    currPage = line.trim().replace("<title>", "").replace("</title>", "");
-//
-//                    while ((line = in.readLine()) != null) {
-//                        if (line.trim().equals("</page>")) break;
-//                        if (line.contains("#REDIRECT") && line.contains("<text")) {
-//
-//                            remove = false;
-//
-//                            // Break if this page references a special wikipedia link rather than a Page
-//                            for (String x : removeList){
-//                                if (line.contains("[["+x+":") || currPage.contains("[["+x+":")) {
-//                                    remove = true;
-//                                    break;
-//                                }
-//                            }
-//
-//                            if (remove) break;
-//
-//                            // Find the Page that the redirect points to
-//                            Matcher linkMatcher = linkPattern.matcher(line);
-//                            if (linkMatcher.find()) {
-//                                count++;
-//                                if (count % 10000 == 0) System.out.println(count);
-//                                String link = linkMatcher.group();
-//
-//                                // Remove links to specific sections [[Page#Section]] and only keep the link to the Page
-//                                if (link.contains("#") && link.length() > 1){
-//                                    link = link.split("#")[0];
-//                                }
-//
-//                                link = link.replace("[[","")
-//                                        .replace("]]","");
-//
-//                                redirects.put(currPage, link);
-//                            }
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//
-//            Gson gson = new Gson();
-//            FileWriter writer = new FileWriter(new File("./res/files/redirects.json"));
-//            writer.write(gson.toJson(redirects));
-//            writer.flush();
-//            writer.close();
-//
-//            System.out.println(count + " redirects done.");
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
 
     private static void buildSqlDB() throws Exception{
         File inputFile = new File("./res/files/wiki.xml");
         BufferedReader in = new BufferedReader(new FileReader(inputFile));
 
+        int count = 0;
+
         String line;
+        String link;
         String currPage;
 
         boolean keep;
 
         while ((line = in.readLine()) != null) {
             if (line.trim().startsWith("<title")) {
+                count ++;
+                if (count % 10000 == 0) {
+                    System.out.println(count + " pages done");
+                    sql.commit();
+                }
+
+                link = null;
+                keep = true;
                 currPage = line.trim().replace("<title>", "").replace("</title>", "");
-                if (!pageInDB(currPage))
-                    addPageToDB(currPage);
 
                 while ((line = in.readLine()) != null) {
                     if (line.trim().equals("</page>")) break;
                     if (line.contains("#REDIRECT") && line.contains("<text")) {
-                        keep = true;
-
-                        // Break if this page references a special wikipedia link rather than a Page
-                        for (String x : removeList) {
-                            if (line.contains("[[" + x + ":") || currPage.contains("[[" + x + ":")) {
-                                keep = false;
-                                break;
-                            }
-                        }
-
-                        if (!keep) break;
 
                         // Find the Page that the redirect points to
                         Matcher linkMatcher = linkPattern.matcher(line);
                         if (linkMatcher.find()) {
-                            String link = linkMatcher.group();
+                            link = linkMatcher.group();
 
                             // Remove links to specific sections [[Page#Section]] and only keep the link to the Page
                             if (link.contains("#") && link.length() > 1)
                                 link = link.split("#")[0];
 
                             link = link.replace("[[", "").replace("]]", "");
-
-                            addRedirectToDB(currPage);
                         }
                         break;
                     }
                 }
+
+                // Break if this page references a special wikipedia link rather than a Page
+                for (String x : removeList) {
+                    if (currPage.contains(x + ":") || ((link != null) && link.contains(x + ":"))) {
+                        keep = false;
+                        break;
+                    }
+                }
+
+                if (keep) addPageToDB(currPage, link);
             }
+        }
+
+        sql.commit();
+    }
+
+    private static void buildGraph() throws Exception{
+        //TODO: This
+    }
+
+    private static void addPageToDB(String page, String redirect) throws Exception{
+        page = format(page);
+        if (redirect != null) redirect = format(redirect);
+        String cmd = "INSERT INTO pages (Title, Redirect) VALUES ('" + page + "','" + redirect + "')";
+        try {
+            PreparedStatement statement = sql.prepareStatement(cmd);
+            statement.execute();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("SQL Syntax broke. Ignoring command: " + cmd);
         }
     }
 
-    private static boolean pageInDB(String page) throws Exception{
-        page = page.replace("'", "''");
-        System.out.println(page);
-        String sqlCommand = "SELECT COUNT(*) FROM pages WHERE Title='" + page + "'";
-        ResultSet set = sql.createStatement().executeQuery(sqlCommand);
-
-        set.next();
-        return set.getInt(1) == 1;
-    }
-
-    private static void addPageToDB(String page) throws Exception{
-        //TODO: This
-    }
-
-    private static void addRedirectToDB(String redirect) throws Exception{
-        //TODO: This
+    private static String format(String string){
+        return string.replace("'", "''")
+                .replace("\\", "\\\\");
     }
 }
