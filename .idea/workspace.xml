@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0faedd59-2d02-4260-80e1-ae37516d5ca9" name="Default Changelist" comment="" />
+    <list default="true" id="0faedd59-2d02-4260-80e1-ae37516d5ca9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/FormatData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FormatData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WikiBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WikiBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WikiGraph.java" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -37,23 +45,24 @@
     <session id="-1003252769">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="12" />
+          <entry key="project.closed" value="13" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="6" />
           <entry key="project.open.time.7" value="3" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.open.time.9" value="2" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="gradle" value="7" />
+          <entry key="class" value="1" />
+          <entry key="gradle" value="8" />
           <entry key="gradlew" value="1" />
           <entry key="java" value="18" />
-          <entry key="json" value="38" />
+          <entry key="json" value="43" />
           <entry key="md" value="4" />
           <entry key="txt" value="1" />
           <entry key="vmoptions" value="4" />
@@ -62,9 +71,10 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Groovy" value="7" />
+          <entry key="CLASS" value="1" />
+          <entry key="Groovy" value="8" />
           <entry key="JAVA" value="18" />
-          <entry key="JSON" value="38" />
+          <entry key="JSON" value="43" />
           <entry key="Markdown" value="4" />
           <entry key="PLAIN_TEXT" value="6" />
           <entry key="XML" value="3" />
@@ -72,9 +82,9 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="gradle" value="8" />
-          <entry key="java" value="19165" />
-          <entry key="json" value="237" />
+          <entry key="gradle" value="9" />
+          <entry key="java" value="20746" />
+          <entry key="json" value="254" />
           <entry key="md" value="1" />
           <entry key="txt" value="931" />
           <entry key="vmoptions" value="13" />
@@ -82,9 +92,9 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Groovy" value="8" />
-          <entry key="JAVA" value="19165" />
-          <entry key="JSON" value="237" />
+          <entry key="Groovy" value="9" />
+          <entry key="JAVA" value="20746" />
+          <entry key="JSON" value="254" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="944" />
         </counts>
@@ -93,78 +103,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/FormatData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="51" column="16" lean-forward="true" selection-start-line="51" selection-start-column="16" selection-end-line="53" selection-end-column="56" />
+            <state relative-caret-position="716">
+              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#buildLinksJson#0;class#FormatData#0" />
-                <element signature="method#buildRedirects#0;class#FormatData#0" />
+                <element signature="e#2288#2331#0" />
+                <element signature="method#buildSqlDB#0;class#FormatData#0" />
+                <element signature="method#pageInDB#0;class#FormatData#0" />
+                <element signature="e#12982#13059#0" />
+                <element signature="e#13069#13154#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/files/sqlCreds.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="18" selection-start-column="18" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="74" selection-start-line="17" selection-start-column="74" selection-end-line="17" selection-end-column="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/WikiBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="108" column="40" lean-forward="true" selection-start-line="108" selection-start-column="40" selection-end-line="108" selection-end-column="40" />
+            <state relative-caret-position="194">
+              <caret line="55" column="28" lean-forward="true" selection-start-line="55" selection-end-line="56" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1002#1151#0" expanded="true" />
-                <element signature="e#1150#1151#0" expanded="true" />
-                <element signature="method#loadLoginCreds#0;class#WikiBot#0" />
+                <element signature="method#playGame#0;class#WikiBot#0" />
                 <element signature="method#login#0;class#WikiBot#0" />
                 <element signature="method#wait#0;class#WikiBot#0" />
                 <element signature="method#getTargets#0;class#WikiBot#0" />
-                <element signature="class#3746:3901" />
-                <element signature="e#3842#3843#0" expanded="true" />
-                <element signature="e#3902#3903#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/files/loginCreds.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="31" lean-forward="true" selection-start-column="31" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/files/wiki.xml">
-          <provider selected="true" editor-type-id="LargeFileEditor">
-            <state relative-caret-position="615">
-              <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/WikiGraph.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/WikiGraphTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="14" column="53" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#getPaths#0;class#WikiBot#0" />
+                <element signature="method#followPath#0;class#WikiBot#0" />
               </folding>
             </state>
           </provider>
@@ -193,6 +179,9 @@
       <replace>HashMap</replace>
       <replace>pageMap</replace>
     </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -372,9 +361,9 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="6159784203000" />
+        <entry key="$PROJECT_DIR$" value="6162203377000" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="2437017079" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="1238277320" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="2585518924" />
         <entry key="$PROJECT_DIR$/settings.gradle" value="701105796" />
       </map>
@@ -570,13 +559,14 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/res/files/testGraph.json" />
         <option value="$USER_HOME$/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/182.4505.22/IntelliJ IDEA.app.vmoptions" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/test/java/WikiGraphTest.java" />
         <option value="$PROJECT_DIR$/res/files/unicodes.json" />
         <option value="$PROJECT_DIR$/src/main/java/WikiGraph.java" />
-        <option value="$PROJECT_DIR$/src/main/java/FormatData.java" />
         <option value="$PROJECT_DIR$/res/files/loginCreds.json" />
         <option value="$PROJECT_DIR$/src/main/java/WikiBot.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/res/files/sqlCreds.json" />
+        <option value="$PROJECT_DIR$/src/main/java/FormatData.java" />
       </list>
     </option>
   </component>
@@ -587,17 +577,16 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="720" />
     <option name="y" value="23" />
     <option name="width" value="720" />
     <option name="height" value="877" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -652,6 +641,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -660,9 +650,10 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542405601614" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542436231849" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -694,7 +685,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.WikiBot">
+  <component name="RunManager" selected="Application.FormatData">
     <configuration name="FormatData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="FormatData" />
       <module name="wikigame_main" />
@@ -746,8 +737,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.WikiBot" />
         <item itemvalue="Application.FormatData" />
+        <item itemvalue="Application.WikiBot" />
         <item itemvalue="JUnit.WikiGraphTest.xmlTest" />
         <item itemvalue="JUnit.WikiGraphTest.importExportTest" />
         <item itemvalue="JUnit.WikiGraphTest" />
@@ -778,7 +769,8 @@
       <workItem from="1540355130145" duration="121000" />
       <workItem from="1540513492669" duration="3850000" />
       <workItem from="1541099311252" duration="315000" />
-      <workItem from="1542395752571" duration="9668000" />
+      <workItem from="1542395752571" duration="11089000" />
+      <workItem from="1542430152867" duration="5501000" />
     </task>
     <servers />
   </component>
@@ -815,7 +807,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64331000" />
+    <option name="totallyTimeSpent" value="71253000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -830,7 +822,7 @@
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1595136" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -839,7 +831,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3299363" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -877,6 +869,12 @@
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/FormatData.java</url>
+          <line>131</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -890,23 +888,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WikiGraphException.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/Node.java" />
-    <entry file="file://$PROJECT_DIR$/res/files/testPages.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml" />
     <entry file="file://$PROJECT_DIR$/gradlew">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/files/testGraph.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/files/graph.json" />
     <entry file="file://$PROJECT_DIR$/res/files/links.json" />
@@ -919,17 +903,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/files/unicodes.json" />
-    <entry file="file://$PROJECT_DIR$/res/files/test.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/files/redirects.json">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="315">
-          <caret column="2981" selection-start-column="2981" selection-end-column="2981" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -940,6 +913,20 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/java.base/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="439" selection-start-line="439" selection-end-line="439" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/files/loginCreds.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="31" selection-start-column="31" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -960,29 +947,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FormatData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="51" column="16" lean-forward="true" selection-start-line="51" selection-start-column="16" selection-end-line="53" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#buildLinksJson#0;class#FormatData#0" />
-            <element signature="method#buildRedirects#0;class#FormatData#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/files/loginCreds.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="31" lean-forward="true" selection-start-column="31" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WikiGraph.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -991,33 +959,77 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="9" selection-start-column="9" selection-end-column="9" />
+        <state relative-caret-position="255">
+          <caret line="17" column="74" selection-start-line="17" selection-start-column="74" selection-end-line="17" selection-end-column="74" />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/java.base/java/util/ArrayList.java">
+    <entry file="file://$PROJECT_DIR$/res/files/sqlCreds.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="439" selection-start-line="439" selection-end-line="439" />
+        <state>
+          <caret column="18" selection-start-column="18" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WikiBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="108" column="40" lean-forward="true" selection-start-line="108" selection-start-column="40" selection-end-line="108" selection-end-column="40" />
+        <state relative-caret-position="194">
+          <caret line="55" column="28" lean-forward="true" selection-start-line="55" selection-end-line="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1002#1151#0" expanded="true" />
-            <element signature="e#1150#1151#0" expanded="true" />
-            <element signature="method#loadLoginCreds#0;class#WikiBot#0" />
+            <element signature="method#playGame#0;class#WikiBot#0" />
             <element signature="method#login#0;class#WikiBot#0" />
             <element signature="method#wait#0;class#WikiBot#0" />
             <element signature="method#getTargets#0;class#WikiBot#0" />
-            <element signature="class#3746:3901" />
-            <element signature="e#3842#3843#0" expanded="true" />
-            <element signature="e#3902#3903#0" expanded="true" />
+            <element signature="method#getPaths#0;class#WikiBot#0" />
+            <element signature="method#followPath#0;class#WikiBot#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/files/testPages.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/files/redirects.json">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="285">
+          <caret column="2981" selection-start-column="2981" selection-end-column="2981" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/files/test.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/files/testGraph.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.6/380ef5226de2c85ff3b38cbfefeea881c5fce09d/mysql-connector-java-5.1.6.jar!/com/mysql/jdbc/ConnectionImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11368">
+          <caret line="1095" column="72" selection-start-line="1095" selection-start-column="72" selection-end-line="1095" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FormatData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="716">
+          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2288#2331#0" />
+            <element signature="method#buildSqlDB#0;class#FormatData#0" />
+            <element signature="method#pageInDB#0;class#FormatData#0" />
+            <element signature="e#12982#13059#0" />
+            <element signature="e#13069#13154#0" />
           </folding>
         </state>
       </provider>

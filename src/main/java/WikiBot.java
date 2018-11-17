@@ -131,4 +131,8 @@ public class WikiBot {
             }
         }
     }
+
+    private static void loadMap(){
+        //TODO: Load this
+    }
 }
