@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.net.URLDecoder;
 import java.sql.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -51,10 +52,10 @@ public class WikiBot {
 //        });
 
         setupSQL();
-        
+
         login();
 
-        wait(2);
+        wait(2.);
 
         while(true){
             playGame();
@@ -74,6 +75,8 @@ public class WikiBot {
     }
 
     private static void playGame() throws Exception{
+        //TODO: Error handling - If can't find link, reset and try next path
+        //TODO: End of game handling
         getTargets();
         System.out.println("Waiting for game to start. Pre-planning paths from " + targets[0] + " to " + targets[1]);
         ArrayList<String> path = fastestPath(targets[0], targets[1]);
@@ -81,16 +84,18 @@ public class WikiBot {
 
         // If path planning is done before the game starts, wait for it to start
         while(browser.findElements(By.xpath("//button[@id='playNowButton']")).isEmpty())
-            wait(1);
+            wait(1.);
 
         browser.findElements(By.xpath("//button[@id='playNowButton']")).get(0).click();
-
-        wait(3);
+            wait(1.);
 
         while(browser.getCurrentUrl().contains("/wiki/") && !path.isEmpty()){
             followPath(path);
-            wait(3);
-            browser.findElements(By.xpath("//button[@class='btn-lg']")).get(0).click();
+            List<WebElement> elements = browser.findElements(By.tagName("button"));
+
+            for(WebElement element : elements){
+                System.out.println(element.getCssValue("class"));
+            }
         }
     }
 
@@ -103,9 +108,9 @@ public class WikiBot {
         browser.findElement(By.xpath("//button[text()='Login']")).click();
     }
 
-    private static void wait(int time){
+    private static void wait(double time){
         try{
-            TimeUnit.SECONDS.sleep(time);
+            TimeUnit.MILLISECONDS.sleep((int)time*1000);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -146,8 +151,9 @@ public class WikiBot {
                         href = href.split("/wiki/")[1];
                         if (href.toLowerCase().equals(path.get(i).toLowerCase().replace(" ", "_"))) {
                             new Actions(browser).moveToElement(elem).build().perform();
+                            wait(1.);
                             elem.click();
-                            wait(1);
+                            wait(1.);
                             break;
                         }
                     }
@@ -166,7 +172,7 @@ public class WikiBot {
     }
 
     private static ArrayList<String> fastestPath(String from, String to) throws Exception{
-
+        //TODO: Find 10-20 fastest paths
         System.out.println("Started");
 
         String idCommands = "SELECT ID,Title FROM pages WHERE Title LIKE '" + from + "' OR Title LIKE '" + to + "'";
@@ -181,7 +187,7 @@ public class WikiBot {
 
         while (idSet.next()){
             if (idSet.getString("Title").equals(to)) toId = idSet.getInt("ID");
-            else fromId = idSet.getInt("ID");
+            else if (idSet.getString("Title").equals(from)) fromId = idSet.getInt("ID");
         }
 
         System.out.println("From " + fromId + " to " + toId);
