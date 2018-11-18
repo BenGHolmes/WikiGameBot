@@ -20,24 +20,18 @@ public class FormatData {
     static ArrayList<String> removeList;
     static Pattern linkPattern;
     static HashMap<Integer, HashSet<Integer>> graph;
-    static HashSet<Integer> redirects;
 
     private static final String driver = "com.mysql.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/wikiGame";
 
     private static Connection sql;
     private static Gson gson;
-    private static HashSet<String> inSql;
     private static int sqlIndex;
-    private static HashMap<String, Integer> tempMap;
 
     public static void main(String[] args) throws Exception {
         gson = new Gson();
         graph = new HashMap<>();
-        redirects = new HashSet<>();
         sqlIndex = 1;
-        inSql = new HashSet<>();
-        tempMap = new HashMap<>();
 
         // List of special wikipedia links that shouldn't be included
         removeList = new ArrayList<>(Arrays.asList(
@@ -151,7 +145,33 @@ public class FormatData {
         int upBound = 1000;
         int count = 0;
 
-        while (lowBound < 20E6) {
+        HashMap<String, Integer> idMap = new HashMap<>();
+
+        while (lowBound < 15E6) {
+
+            String cmd = "SELECT ID,Title FROM pages WHERE ID <= " + upBound + " AND ID > " + lowBound;
+            Statement statement = sql.createStatement();
+            ResultSet res = statement.executeQuery(cmd);
+
+            while (res.next()) {
+                count++;
+                if(count%100000 ==0)System.out.println(count + " pages mapped to ID.");
+
+                idMap.put(res.getString("Title"), res.getInt("ID"));
+            }
+
+            statement.close();
+            lowBound = upBound;
+            upBound+=1000;
+        }
+
+        System.out.println("ID map done. Starting graph");
+
+        lowBound = 0;
+        upBound = 1000;
+        count = 0;
+
+        while (lowBound < 15E6) {
 
             String cmd = "SELECT ID,Links FROM pages WHERE ID <= " + upBound + " AND ID > " + lowBound;
             Statement statement = sql.createStatement();
@@ -159,35 +179,52 @@ public class FormatData {
 
             while (res.next()) {
                 count++;
-                System.out.println(count + " pages graphed.");
+                if(count%10000 ==0){
+                    System.out.println(count + " pages graphed.");
+                }
 
                 HashSet<Integer> links = new HashSet<>();
-                String linkString = res.getString("Links")
-                        .replace("'", "''")
-                        .replace("[", "'")
-                        .replace(", ", "','")
-                        .replace("]", "'");
+                String linkString = res.getString("Links");
+                String[] linkList = linkString.substring(1, linkString.length()-1).split(", ");
 
-                Statement linkIdStatement = sql.createStatement();
-                try {
-                    ResultSet linkIds = linkIdStatement.executeQuery("SELECT ID FROM pages WHERE Title IN (" + linkString + ")");
-                    while (linkIds.next())
-                        links.add(linkIds.getInt("ID"));
+                for (String link: linkList){
+                    if(idMap.containsKey(link))
+                        links.add(idMap.get(link));
+                }
 
-                    linkIdStatement.close();
-
-                    graph.put(res.getInt("ID"), links);
-                } catch (Exception e){
-                    System.out.println("SELECT ID FROM pages WHERE Title IN (" + linkString + ")");
-                    throw e;
+                if(links.size() != 0) {
+                    Statement graphStatement = sql.createStatement();
+                    String graphCmd = "INSERT INTO graph (ID, Children) VALUES (" + res.getInt("ID") + ",'" + links.toString() + "')";
+//                    System.out.println(graphCmd);
+                    graphStatement.executeUpdate(graphCmd);
+                    graphStatement.close();
+//                    sql.commit();
                 }
             }
 
             statement.close();
             lowBound = upBound;
             upBound+=1000;
-            statement.close();
+            sql.commit();
         }
+
+//
+//
+//        Statement linkIdStatement = sql.createStatement();
+//        try {
+//            long start = Calendar.getInstance().getTimeInMillis();
+//            ResultSet linkIds = linkIdStatement.executeQuery("SELECT ID FROM pages WHERE Title IN (" + linkString + ")");
+//            System.out.println("ID List returned in: " + (Calendar.getInstance().getTimeInMillis() - start));
+//            while (linkIds.next())
+//                links.add(linkIds.getInt("ID"));
+//
+//            linkIdStatement.close();
+//
+//            graph.put(res.getInt("ID"), links);
+//        } catch (Exception e){
+//            System.out.println("SELECT ID FROM pages WHERE Title IN (" + linkString + ")");
+//            throw e;
+//        }
     }
 
     private static void addPageToDB(String page, List<String> links, boolean redirect) throws Exception{
