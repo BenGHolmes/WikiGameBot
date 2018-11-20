@@ -13,21 +13,25 @@ import java.sql.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.collections4.MapUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
-
 public class WikiBot {
+    /*
+     * TODO:
+     *  1) Replace all wait(time) with pauses until page has loaded, link is clickable, etc
+     */
+
     private static String[] loginCreds;
     private static WebDriver browser;
-    private static boolean inGame;
     private static String[] targets;
-    private static HashMap<Integer, HashSet<Integer>> graph;
-    private static LinkedList<String[]> paths;
+    private static HashMap<String,Integer> idMap;
+    private static HashMap<Integer,String> titleMap;
+
+
+    private static LinkedList<List<String>> paths;
     private static final String driver = "com.mysql.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/wikiGame";
     private static Gson gson;
@@ -36,29 +40,37 @@ public class WikiBot {
 
 
     public static void main(String[] args) throws Exception{
-        loadLoginCreds();
-        browser = new ChromeDriver();
-        inGame = false;
         targets = new String[2];
         paths = new LinkedList<>();
         gson = new Gson();
-        graph = new HashMap<>();
-
-//        Runtime.getRuntime().addShutdownHook(new Thread() {
-//            public void run(){
-//                System.out.println("Exiting");
-//                browser.close();
-//            }
-//        });
+        idMap = new HashMap<>();
+        titleMap = new HashMap<>();
 
         setupSQL();
+        loadMap();
 
+        browser = new ChromeDriver();
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run(){
+                System.out.println("Exiting");
+                browser.close();
+            }
+        });
+        loadLoginCreds();
         login();
 
         wait(2.);
 
         while(true){
-            playGame();
+            try {
+                playGame();
+            } catch (Exception e){
+                e.printStackTrace();
+                if(e instanceof UnhandledAlertException){
+                    browser.switchTo().alert().dismiss();
+                }
+                wait(5.);
+            }
         }
     }
 
@@ -75,28 +87,49 @@ public class WikiBot {
     }
 
     private static void playGame() throws Exception{
-        //TODO: Error handling - If can't find link, reset and try next path
-        //TODO: End of game handling
+        System.out.println("Starting game");
+        int wins = 0;
+        System.out.println(browser.findElements(By.xpath("//div[@class='col-12 wgg-article-link']")).get(0).getText());
+        System.out.println(targets[0]);
+        while (browser.findElements(By.xpath("//div[@class='col-12 wgg-article-link']")).get(0).getText().equals(targets[0])){
+            wait(0.1);
+        }
+
         getTargets();
         System.out.println("Waiting for game to start. Pre-planning paths from " + targets[0] + " to " + targets[1]);
-        ArrayList<String> path = fastestPath(targets[0], targets[1]);
-        System.out.println("Done path planning.  Path: " + path);
+        fastestPath(targets[0], targets[1]);
+        System.out.println("Done path planning.");
 
         // If path planning is done before the game starts, wait for it to start
         while(browser.findElements(By.xpath("//button[@id='playNowButton']")).isEmpty())
             wait(1.);
 
         browser.findElements(By.xpath("//button[@id='playNowButton']")).get(0).click();
-            wait(1.);
+        wait(1.);
 
-        while(browser.getCurrentUrl().contains("/wiki/") && !path.isEmpty()){
-            followPath(path);
-            List<WebElement> elements = browser.findElements(By.tagName("button"));
+        while(browser.getCurrentUrl().contains("/wiki/") && !paths.isEmpty()){
+            boolean done = false;
+            try {
+                followPath(paths.removeFirst());
+                List<WebElement> elements = browser.findElements(By.tagName("button"));
+                for (WebElement elem : elements){
+                    if(elem.getText().equals("FIND ANOTHER PATH!")) {
+                        elem.click();
+                        wins ++;
+                        done = true;
+                        wait(1.);
+                    }
+                }
 
-            for(WebElement element : elements){
-                System.out.println(element.getCssValue("class"));
+                if(!done && !reset()) {
+                    break;
+                }
+            } catch (Exception e){
+                reset();
             }
         }
+
+        System.out.println("Game finished. " + wins + " wins");
     }
 
     private static void login(){
@@ -138,28 +171,28 @@ public class WikiBot {
         return paths;
     }
 
-    private static void followPath(ArrayList<String> path){
+    private static void followPath(List<String> path) throws Exception{
+        System.out.println("Following: " + path);
         for (int i = 1; i < path.size(); i++){
-//            List<WebElement> elements = browser.findElements(By.xpath("//a[@href='/wiki/" + path.get(i).trim().replace(" ", "_") + "']"));
-            List<WebElement> elements = browser.findElements(By.tagName("a"));
+            if(!browser.getCurrentUrl().contains("/wiki/")) break;
+            String xpath = "//a[contains(@href, '/wiki/" + path.get(i).replace(" ", "_") + "')]";
+            List<WebElement> elements = browser.findElements(By.xpath(xpath));
             if(elements.isEmpty()){
                 System.out.println("Can't find link with xpath: " + "//a[@href='/wiki/" + path.get(i).trim().replace(" ", "_") + "']");
             } else {
                 for (WebElement elem : elements) {
-                    String href = elem.getAttribute("href");
-                    if (href != null && href.contains("/wiki/")) {
-                        href = href.split("/wiki/")[1];
-                        if (href.toLowerCase().equals(path.get(i).toLowerCase().replace(" ", "_"))) {
-                            new Actions(browser).moveToElement(elem).build().perform();
-                            wait(1.);
-                            elem.click();
-                            wait(1.);
-                            break;
-                        }
-                    }
+                    if(!browser.getCurrentUrl().contains("/wiki/")) break;
+                    new Actions(browser).moveToElement(elem).build().perform();
+                    wait(1.);
+                    elem.click();
+                    wait(1.);
+                    break;
                 }
             }
         }
+
+        System.out.println("PATH DONE");
+        wait(1.);
     }
 
     private static void setupSQL() throws Exception{
@@ -171,35 +204,62 @@ public class WikiBot {
         sql.setAutoCommit(false);
     }
 
-    private static ArrayList<String> fastestPath(String from, String to) throws Exception{
-        //TODO: Find 10-20 fastest paths
+    private static void loadMap() throws Exception{
+        System.out.println("Setting up.");
+
+        int lowBound = 0;
+        int upBound = 1000;
+        int count = 0;
+        int percent = 0;
+
+        while (lowBound < 15E6) {
+            String cmd = "SELECT ID,Title FROM pages WHERE ID <= " + upBound + " AND ID > " + lowBound;
+            Statement statement = sql.createStatement();
+            ResultSet res = statement.executeQuery(cmd);
+
+            while (res.next()) {
+                count++;
+                if(count % 1444444 == 0){
+                    percent += 10;
+                    System.out.print("\rSetup " + percent + "% complete");
+                }
+                idMap.put(res.getString("Title"), res.getInt("ID"));
+            }
+
+            statement.close();
+            lowBound = upBound;
+            upBound+=1000;
+        }
+
+        for (String key : idMap.keySet()){
+            titleMap.put(idMap.get(key), key);
+        }
+
+        System.out.println("\rSetup done.");
+    }
+
+    private static void fastestPath(String from, String to) throws Exception{
         System.out.println("Started");
+        paths.clear();
 
-        String idCommands = "SELECT ID,Title FROM pages WHERE Title LIKE '" + from + "' OR Title LIKE '" + to + "'";
-        ResultSet idSet = sql.createStatement().executeQuery(idCommands);
-
-        int toId = 0;
-        int fromId = 0;
+        Integer toId = idMap.get(to);
+        Integer fromId = idMap.get(from);
 
         LinkedList<Integer> queue = new LinkedList<>();
         HashSet<Integer> visited = new HashSet<>();
         HashMap<Integer, Integer> steps = new HashMap<>();
 
-        while (idSet.next()){
-            if (idSet.getString("Title").equals(to)) toId = idSet.getInt("ID");
-            else if (idSet.getString("Title").equals(from)) fromId = idSet.getInt("ID");
-        }
-
         System.out.println("From " + fromId + " to " + toId);
 
-        if(fromId == 0 || toId == 0) throw new Exception("Can't find start or end page");
+        if(fromId == null || toId == null) throw new Exception("Can't find start or end page");
 
-        idSet.close();
         queue.add(fromId);
         visited.add(fromId);
         steps.put(fromId, null);
 
         Type hashSetType = new TypeToken<HashSet<Integer>>() {}.getType();
+
+        long start = Calendar.getInstance().getTimeInMillis();
 
         while (!queue.isEmpty()) {
             int parent = queue.removeFirst();
@@ -211,8 +271,8 @@ public class WikiBot {
 
                 for (int child : children) {
                     if (!visited.contains(child)) {
+                        if(!(child==toId))visited.add(child);
                         queue.add(child);
-                        visited.add(child);
                         steps.put(child, parent);
                     }
 
@@ -222,27 +282,41 @@ public class WikiBot {
                             pathInt.add(next);
                         }
 
+                        int max = pathInt.size() - 1;
                         ArrayList<String> pathString = new ArrayList<>();
-                        while(pathString.size() < pathInt.size()) pathString.add("a");
-
-                        String pathComand = "SELECT ID, Title, Redirect FROM pages WHERE ID in (" + pathInt.toString().replace("[","").replace("]","") + ")";
-                        ResultSet pathSet = sql.createStatement().executeQuery(pathComand);
-                        int last = pathInt.size() - 1;
-
-                        while(pathSet.next()){
-                            int id = pathSet.getInt("ID");
-                            pathString.set(last - pathInt.indexOf(id), pathSet.getString("Title"));
+                        for (int i = max; i >= 0 ; i--){
+                            pathString.add(titleMap.get(pathInt.get(i)));
                         }
 
-                        pathSet.close();
                         childSet.close();
-                        return pathString;
+
+                        paths.add(pathString);
+                        if(paths.size() > 20 || (Calendar.getInstance().getTimeInMillis() - start) > 30000) {
+                            System.out.println("Found " + paths.size() + " paths in " + (Calendar.getInstance().getTimeInMillis() - start)/1000 + "s");
+                            return;
+                        }
                     }
                 }
             }
 
             childSet.close();
         }
-        return new ArrayList<>();
+    }
+
+    private static boolean reset(){
+        browser.findElement(By.className("navbar-brand")).click();
+        wait(1.);
+        while(browser.findElements(By.xpath("//button[@id='playNowButton']")).isEmpty())
+            wait(1.);
+
+        String to = browser.findElements(By.xpath("//div[@class='col-12 wgg-article-link']")).get(0).getText();
+        boolean same = to.equals(targets[0]);
+
+        if(same){
+            browser.findElements(By.xpath("//button[@id='playNowButton']")).get(0).click();
+            wait(1.);
+        }
+
+        return same;
     }
 }
