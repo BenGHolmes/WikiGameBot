@@ -18,7 +18,7 @@ var links map[int][]int
 
 func buildTitleMap() {
 	fmt.Println("Building title map")
-	jsonFile, err := os.Open("pages.json")
+	jsonFile, err := os.Open("Data/pages.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -39,7 +39,7 @@ func buildIdMap() {
 
 func buildLinkMap() {
 	fmt.Println("Building link map")
-	jsonFile, err := os.Open("links.json")
+	jsonFile, err := os.Open("Data/links.json")
 	if err != nil {
 		fmt.Println(err)
 	}
