@@ -1,4 +1,5 @@
-/res/files/*
+Data/
 .DS_Store
-/out/*
-.idea/*
+.env
+.ipynb_checkpoints
+Prototyping/
